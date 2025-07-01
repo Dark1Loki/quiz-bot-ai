@@ -14,7 +14,7 @@ def generate_options_keyboard(answer_options):
     builder.adjust(1)
     return builder.as_markup()
 
-async def get_question(message_obj, user_id):
+async def ask(message_obj, user_id):
     current_question_index, _ = await get_state(user_id)
     question = quiz_data[current_question_index]
     kb = generate_options_keyboard(question['options'])

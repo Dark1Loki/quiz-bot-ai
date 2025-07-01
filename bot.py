@@ -11,7 +11,6 @@ API_TOKEN = os.getenv("API_TOKEN")
 # Включаем логгирование
 logging.basicConfig(level=logging.INFO)
 
-# Создаём объекты бота и диспетчера
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 

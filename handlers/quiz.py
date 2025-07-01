@@ -7,22 +7,21 @@ from services.quiz_logic import get_question
 from services.db import get_state, update_state
 from data.questions import quiz_data
 
-# Старт квиза — сбрасывает прогресс
+# запуск квиза
 async def cmd_quiz(message: types.Message):
     await message.answer("Начнем квиз!")
-    await update_state(message.from_user.id, question_index=0, correct_answers=0)
-    await get_question(message, message.from_user.id)
+    await update_state(message.from_user.id, q_idx=0, ok_count=0)
+    await ask(message, message.from_user.id)
 
-# Универсальный обработчик ответа
 async def handle_answer(callback: types.CallbackQuery):
-    selected_index = int(callback.data)
-    current_index, correct_answers = await get_state(callback.from_user.id)
-    question = quiz_data[current_index]
-    correct_index = question['correct_option']
+    picked = int(callback.data)
+    step, ok_count = await get_state(callback.from_user.id)
+    question = quiz_data[step]
+    right = question['correct_option']
 
-    user_answer = question['options'][selected_index]
-    correct_text = question['options'][correct_index]
-    is_correct = selected_index == correct_index
+    user_answer = question['options'][picked]
+    correct_text = question['options'][right]
+    is_correct = picked == right
 
     # Удаляем inline-клавиатуру
     await callback.bot.edit_message_reply_markup(
@@ -33,23 +32,23 @@ async def handle_answer(callback: types.CallbackQuery):
 
     # Показываем результат
     if is_correct:
-        correct_answers += 1
+        ok_count += 1
         await callback.message.answer(f"Вы выбрали: {user_answer}. Верно!")
     else:
         await callback.message.answer(
             f"Вы выбрали: {user_answer}. Неверно.\nПравильный ответ: {correct_text}"
         )
 
-    current_index += 1
-    await update_state(callback.from_user.id, question_index=current_index, correct_answers=correct_answers)
+    step += 1
+    await update_state(callback.from_user.id, q_idx=step, ok_count=ok_count)
 
-    if current_index < len(quiz_data):
-        await get_question(callback, callback.from_user.id)
+    if step < len(quiz_data):
+        await ask(callback, callback.from_user.id)
     else:
         total = len(quiz_data)
-        percent = round((correct_answers / total) * 100)
+        percent = round((ok_count / total) * 100)
         await callback.message.answer(
-            f"Квиз завершён!\nВаш результат: {correct_answers}/{total} правильных ответов ({percent}%)"
+            f"Конец!\nВаш результат: {ok_count}/{total} верных ({percent}%)"
         )
 
 def register_handlers(dp: Dispatcher):
