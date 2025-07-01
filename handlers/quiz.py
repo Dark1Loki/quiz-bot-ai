@@ -15,12 +15,14 @@ async def cmd_quiz(message: types.Message):
 
 # Универсальный обработчик ответа
 async def handle_answer(callback: types.CallbackQuery):
-    user_answer = callback.data
+    selected_index = int(callback.data)
     current_index, correct_answers = await get_state(callback.from_user.id)
-
     question = quiz_data[current_index]
-    correct_text = question['options'][question['correct_option']]
-    is_correct = user_answer == correct_text
+    correct_index = question['correct_option']
+
+    user_answer = question['options'][selected_index]
+    correct_text = question['options'][correct_index]
+    is_correct = selected_index == correct_index
 
     # Удаляем inline-клавиатуру
     await callback.bot.edit_message_reply_markup(
@@ -29,7 +31,7 @@ async def handle_answer(callback: types.CallbackQuery):
         reply_markup=None
     )
 
-    # Показываем результат выбора
+    # Показываем результат
     if is_correct:
         correct_answers += 1
         await callback.message.answer(f"Вы выбрали: {user_answer}. Верно!")
