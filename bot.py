@@ -1,18 +1,21 @@
-# bot.py
+import os
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from handlers import start, quiz
 from services.db import create_table
 
-API_TOKEN = 'ВАШ_ТОКЕН_ОТ_BOTFATHER'
+# Берём токен из переменных окружения
+API_TOKEN = os.getenv("API_TOKEN")
 
+# Включаем логгирование
 logging.basicConfig(level=logging.INFO)
 
+# Создаём объекты бота и диспетчера
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 
-# Регистрируем хэндлеры
+# Регистрируем хендлеры
 start.register_handlers(dp)
 quiz.register_handlers(dp)
 
