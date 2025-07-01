@@ -3,7 +3,7 @@
 from aiogram import types, Dispatcher, F
 from aiogram.filters.command import Command
 
-from services.quiz_logic import get_question
+from services.quiz_logic import ask
 from services.db import get_state, update_state
 from data.questions import quiz_data
 
