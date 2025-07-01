@@ -44,7 +44,7 @@ async def handle_answer(callback: types.CallbackQuery):
     await update_state(callback.from_user.id, question_index=current_index, correct_answers=correct_answers)
 
     if current_index < len(quiz_data):
-        await get_question(callback.message, callback.from_user.id)
+        await get_question(callback, callback.from_user.id)
     else:
         total = len(quiz_data)
         percent = round((correct_answers / total) * 100)
@@ -52,7 +52,6 @@ async def handle_answer(callback: types.CallbackQuery):
             f"Квиз завершён!\nВаш результат: {correct_answers}/{total} правильных ответов ({percent}%)"
         )
 
-# Регистрация хэндлеров
 def register_handlers(dp: Dispatcher):
     dp.message.register(cmd_quiz, Command("quiz"))
     dp.message.register(cmd_quiz, F.text == "Начать игру")
