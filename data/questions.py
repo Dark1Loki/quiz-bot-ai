@@ -8,7 +8,7 @@ quiz_data = [
     {
         'question': 'Какой язык чаще всего используется для создания моделей ИИ?',
         'options': ['Java', 'C++', 'HTML', 'Python'],
-        'correct_option': 4
+        'correct_option': 3
     },
     {
         'question': 'Как называется библиотека для работы с нейросетями в Python?',
@@ -28,12 +28,12 @@ quiz_data = [
     {
         'question': 'Какой инструмент используется для работы с данными?',
         'options': ['Photoshop', 'Pandas', 'Git', 'Docker'],
-        'correct_option': 2
+        'correct_option': 1
     },
     {
         'question': 'Что такое overfitting?',
         'options': ['Оптимизация', 'Недообучение', 'Переобучение', 'Тестирование'],
-        'correct_option': 3
+        'correct_option': 2
     },
     {
         'question': 'Что делает функция активации?',
