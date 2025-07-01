@@ -14,8 +14,13 @@ def generate_options_keyboard(answer_options):
     builder.adjust(1)
     return builder.as_markup()
 
-async def get_question(message, user_id):
+async def get_question(message_obj, user_id):
     current_question_index, _ = await get_state(user_id)
     question = quiz_data[current_question_index]
     kb = generate_options_keyboard(question['options'])
-    await message.answer(question['question'], reply_markup=kb)
+
+    # Если это callback, получаем объект .message
+    if isinstance(message_obj, types.CallbackQuery):
+        message_obj = message_obj.message
+
+    await message_obj.answer(question['question'], reply_markup=kb)
