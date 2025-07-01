@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher
 from handlers import start, quiz
 from services.db import create_table
 
-API_TOKEN = '7164101974:AAHupMqE5KkgnvirxCInJJa76q31HWkFSrA'
+API_TOKEN = 'ВАШ_ТОКЕН_ОТ_BOTFATHER'
 
 logging.basicConfig(level=logging.INFO)
 
