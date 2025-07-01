@@ -19,7 +19,7 @@ async def get_question(message_obj, user_id):
     question = quiz_data[current_question_index]
     kb = generate_options_keyboard(question['options'])
 
-    # Если это callback, получаем объект .message
+
     if isinstance(message_obj, types.CallbackQuery):
         message_obj = message_obj.message
 
