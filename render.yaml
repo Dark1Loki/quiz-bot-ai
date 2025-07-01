@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: telegram-quiz-bot
+    env: python
+    buildCommand: ""
+    startCommand: python bot.py
+    envVars:
+      - key: API_TOKEN
+        value: your_token_here
