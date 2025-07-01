@@ -1,7 +1,7 @@
 # services/quiz_logic.py
 from aiogram import types
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from services.db import get_quiz_index
+from services.db import get_state
 from data.questions import quiz_data
 
 def generate_options_keyboard(answer_options, right_answer):
@@ -16,7 +16,7 @@ def generate_options_keyboard(answer_options, right_answer):
 
 
 async def get_question(message, user_id):
-    current_question_index = await get_quiz_index(user_id)
+    current_question_index, _ = await get_state(user_id)
     question = quiz_data[current_question_index]
     correct_text = question['options'][question['correct_option']]
     kb = generate_options_keyboard(question['options'], correct_text)
